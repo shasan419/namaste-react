@@ -1,8 +1,12 @@
-import React from 'react'
+import User from './User'
+import UserClass from './UserClass'
 
 const About = () => {
   return (
-    <div>About</div>
+    <div>
+      {/* <User name={"Hasan Shaikh"}/> */}
+      <UserClass name={"Hasan Shaikh"}/>
+    </div>
   )
 }
 
