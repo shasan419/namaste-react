@@ -3,11 +3,14 @@ import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
+import {FaShoppingCart} from "react-icons/fa";
 
 const Header = () => {
   const [btnName, setBtnName] = useState("Login");
   const isOnline = useOnlineStatus();
   const {loggedInUser,setUserName} = useContext(UserContext);
+  const cartItems = useSelector((store) => store.cart.items);
 
   return (
     <div className="flex justify-between items-center p-2 m-2 border-1 border-amber-600 rounded-xl">
@@ -21,7 +24,7 @@ const Header = () => {
           <li className="px-4 cursor-pointer"><Link to="/grocery">Grocery</Link></li>
           <li className="px-4 cursor-pointer"><Link to="/about">About me</Link></li>
           <li className="px-4 cursor-pointer"><Link to="/contact">Contact Us</Link></li>
-          <li className="px-4 cursor-pointer">Cart</li>
+          <li className="px-4 cursor-pointer flex"><Link to="/cart"><FaShoppingCart className="text-2xl"/><sub>({cartItems.length})</sub></Link></li>
           <li className="px-4">
             <button
               className="m-2 text-white bg-amber-700 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800"

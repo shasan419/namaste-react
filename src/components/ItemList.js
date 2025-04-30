@@ -1,11 +1,23 @@
 import { useState } from "react";
 import { CON_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { addItem, removeItem } from "../utils/cartSlice";
 
 export default function ItemList({ item }) {
-  const [showCounter, setShowCounter] = useState(false);
-  const [count, setCount] = useState(1);
+  // const [showCounter, setShowCounter] = useState(false);
+  // const [count, setCount] = useState(1);
+  const [itemAddedToCart, setItemAddedToCart] = useState(false);
   const { name, price, ratings, imageId, description, defaultPrice } = item;
   const priceInRupees = price ? price / 100 : defaultPrice / 100;
+  const dispatch = useDispatch();
+  const handleAddItem = (item) => {
+    dispatch(addItem(item));
+    setItemAddedToCart(true)
+  };
+  const handleDeleteItem = () => {
+    dispatch(removeItem(item));
+    setItemAddedToCart(false)
+  };
   return (
     <>
       <div className="px-2 flex flex-row flex-wrap justify-between">
@@ -39,7 +51,7 @@ export default function ItemList({ item }) {
         </div>
         <div className="flex flex-col flex-wrap justify-between w-3/12">
           <img src={CON_URL + imageId} className="rounded-t-2xl h-50 w-50" />
-          {showCounter ? (
+          {/* {showCounter ? (
             <div className="flex items-center rounded-b-2xl border border-green-700 w-50" >
               <button
                 type="button"
@@ -94,14 +106,24 @@ export default function ItemList({ item }) {
                 </svg>
               </button>
             </div>
-          ) : (
+          ) : ( */}
+          {itemAddedToCart ? (
             <button
-              onClick={() => setShowCounter(!showCounter)}
+            onClick={() => handleDeleteItem(item)}
+            className="w-50 cursor-pointer text-red-700 bg-white border h-10 border-red-700 rounded-b-2xl px-4 py-2 text-center"
+          >
+            Remove
+          </button>
+          ) : (
+
+            <button
+              onClick={() => handleAddItem(item)}
               className="w-50 cursor-pointer text-green-700 bg-white border h-10 border-green-700 rounded-b-2xl px-4 py-2 text-center"
             >
               Add +
             </button>
           )}
+         {/* )} */}
         </div>
       </div>
       <hr className="h-px my-4 bg-gray-100 border-0" />

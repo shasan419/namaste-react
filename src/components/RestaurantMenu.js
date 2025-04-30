@@ -1,12 +1,19 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
 import RestaurantCategory from "./RestaurantCategory";
+// import { useDispatch } from "react-redux";
+// import { clearCart } from "../utils/cartSlice";
 
 function RestaurantMenu() {
   const { resId } = useParams();
   const [showItemIndex, setShowItemIndex] = useState(null);
+  // const dispatch = useDispatch()
+
+  // useEffect(() => {
+  //   return () => {dispatch(clearCart())};
+  // },[]);
 
   const menu = useRestaurantMenu(resId);
 

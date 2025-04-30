@@ -11,10 +11,17 @@ const Body = () => {
   const { loggedInUser, setUserName } = useContext(UserContext);
 
   useEffect(() => {
-    fetchData();
+    // const storedValue = JSON.parse(localStorage.getItem('restaurants'));
+    // if(!storedValue) {
+      fetchData();
+    // }else{
+    //   setListOfRestaurants(storedValue);
+    //   setFilterListOfRestaurants(storedValue);
+    // }
   }, []);
 
   const fetchData = async () => {
+    localStorage.clear();
     const data = await fetch(
       "https://proxy.cors.sh/https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.673373592835524&lng=77.47453518211842&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING",
       {
@@ -30,6 +37,7 @@ const Body = () => {
 
     setListOfRestaurants(restaurants);
     setFilterListOfRestaurants(restaurants);
+    // localStorage.setItem('restaurants', JSON.stringify(restaurants));
   };
 
   const RestaurantCardWithPromotedLabel = withPromotedLabel(RestaurantCard);
@@ -43,6 +51,23 @@ const Body = () => {
   ) : (
     <div className="m-4">
       <div className="flex items-center py-4 my-4">
+        {loggedInUser && (
+           <div className="flex items-center">
+           <span className="items-center pr-2">
+             Welcome
+           </span>
+         <input
+             type="text"
+             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+             placeholder="Enter User Name"
+             value={loggedInUser}
+             onChange={(e) => {
+               setUserName(e.target.value);
+             }}
+           />
+         </div>
+        )
+        }    
         <div className="flex items-center px-4">
           <input
             type="text"
@@ -75,7 +100,7 @@ const Body = () => {
               setFilterListOfRestaurants(listOfRestaurants);
             }}
           >
-            Reset
+            Clear
           </button>
         </div>
         <div>
@@ -90,17 +115,15 @@ const Body = () => {
           >
             Top Rated Restaurants
           </button>
-        </div>
-        <div>
-          <input
-            type="text"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder="Enter User Name"
-            value={loggedInUser}
-            onChange={(e) => {
-              setUserName(e.target.value);
+          <button
+            className="m-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+            onClick={() => {
+              setSearchText("");
+              setFilterListOfRestaurants(listOfRestaurants);
             }}
-          />
+          >
+            Reset
+          </button>
         </div>
       </div>
       <div className="w-auto h-auto flex flex-wrap">

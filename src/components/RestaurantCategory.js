@@ -61,4 +61,4 @@ export default function RestaurantCategory({ category, showItems, setShowItemInd
       </div>
     </>
   );
-}
+};
